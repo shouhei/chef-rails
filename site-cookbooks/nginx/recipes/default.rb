@@ -12,13 +12,6 @@ user "nginx" do
   password nil
 end
 
-template "nginx.repo" do
-    path "/etc/yum.repos.d/nginx.repo"
-    owner "root"
-    group "root"
-    mode 0644
-end
-
 package "nginx" do
   action :install
 end
