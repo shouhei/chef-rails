@@ -1,0 +1,12 @@
+{
+  "run_list": [
+    "common",
+    "nginx",
+    "mysql",
+    "ruby",
+    "cocoico"
+  ],
+  "automatic": {
+    "ipaddress": "vagrant-aws"
+  }
+}

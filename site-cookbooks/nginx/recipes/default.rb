@@ -16,6 +16,13 @@ package "nginx" do
   action :install
 end
 
+template "cocoico.conf" do
+  path "/etc/nginx/conf.d/cocoico.conf"
+  owner "root"
+  group "root"
+  mode 0644
+end
+
 service "nginx" do
     action [:enable, :start]
 end

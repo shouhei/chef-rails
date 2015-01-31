@@ -7,7 +7,13 @@
 # All rights reserved - Do Not Redistribute
 #
 
-%w{gcc git curl-devel openssl-devel}.each do |pkg|
+bash 'yum update' do
+  code <<-EOC
+    yum -y update
+  EOC
+end
+
+%w{gcc git curl-devel openssl-devel expect}.each do |pkg|
   package pkg do
     action :install
   end

@@ -6,31 +6,63 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-%w{mysql mysql-libs}.each do |pkg|
+package "perl-Data-Dumper" do
+  action :install
+end
+
+%w{mysql mysql-libs mysql mysql-devel mysql-server mysql-utilities}.each do |pkg|
   package pkg do
     action :remove
   end
 end
 
-remote_file "/tmp/#{node['mysql']['file_name']}" do
-  source "#{node['mysql']['remote_uri']}"
+#remote_file "/tmp/#{node['mysql']['file_name']}" do
+#  source "#{node['mysql']['remote_uri']}"
+#end
+#
+#bash "install_mysql" do
+#  user "root"
+#  cwd "/tmp"
+#    code <<-EOH
+#    tar xf "#{node['mysql']['file_name']}"
+#  EOH
+#end
+#
+#node['mysql']['rpms'].each do |rpm|
+#  rpm_package rpm[:package_name] do
+#    action :install
+#    source "/tmp/#{rpm[:rpm_file]}"
+#  end
+#end
+
+remote_file "#{Chef::Config[:file_cache_path]}/mysql-community-release-el6-4.noarch.rpm" do
+  source "http://repo.mysql.com/mysql-community-release-el6-4.noarch.rpm"
+  action :create
 end
 
-bash "install_mysql" do
-  user "root"
-  cwd "/tmp"
-    code <<-EOH
-    tar xf "#{node['mysql']['file_name']}"
-  EOH
+package "mysql-community-release-el6-4.noarch.rpm" do
+  source "#{Chef::Config[:file_cache_path]}/mysql-community-release-el6-4.noarch.rpm"
+  action :install
 end
 
-node['mysql']['rpms'].each do |rpm|
-  rpm_package rpm[:package_name] do
+bash "yum-update" do
+  code <<-EOC
+    yum -y update
+  EOC
+end
+
+%w{mysql mysql-devel mysql-server mysql-utilities}.each do |pkg|
+  package pkg do
     action :install
-    source "/tmp/#{rpm[:rpm_file]}"
+    options "--enablerepo=mysql56-community"
   end
 end
 
-service "mysql" do
-    action [:enable, :start]
+service "mysqld" do
+  action [:enable, :start]
 end
+
+# todo
+#template "setup_mysql" do
+#  path "/home/ec2-user/setup_mysql"
+#end
