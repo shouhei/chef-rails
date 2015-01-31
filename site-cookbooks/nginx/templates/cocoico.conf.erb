@@ -1,12 +1,12 @@
 upstream unicorn {
-  server unix:/var/www/cocoico/html/first_app/tmp/unicorn.sock;
+  server unix:/var/www/cocoico/html/tmp/unicorn.sock;
 }
 
 server {
   listen 80;
   server_name localhost;
 
-  root /var/www/cocoico/html/first_app/public;
+  root /var/www/cocoico/html/public;
 
   access_log /var/log/nginx/sample_access.log;
   error_log /var/log/nginx/sample_error.log;
