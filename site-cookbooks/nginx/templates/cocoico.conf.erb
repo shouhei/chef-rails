@@ -4,7 +4,7 @@ upstream unicorn {
 
 server {
   listen 80;
-  server_name localhost;
+  server_name cocoi-co.com;
 
   root /var/www/cocoico/html/public;
 
@@ -22,4 +22,10 @@ server {
     proxy_set_header Host $http_host;
     proxy_pass http://unicorn;
   }
+}
+
+server {
+  listen 80;
+  server_name www.cocoi-co.com;
+  rewrite ^ http://cocoi-co.com$request_uri? permanent;
 }
