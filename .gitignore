@@ -1,4 +1,4 @@
 /cookbooks/
 Vagrantfile
 .vagrant
-bash_profile.erb
+site-cookbooks/ruby/templates/bash_profile.erb
