@@ -1,3 +1,4 @@
 /cookbooks/
 Vagrantfile
 .vagrant
+bash_profile.erb
